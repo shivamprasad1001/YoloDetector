@@ -16,7 +16,19 @@ An advanced, high-performance Android application featuring real-time object det
 ![YoloDetector Banner](app/src/main/assets/banner.png)
 
 ---
+## 🎯 Why YoloDetector?
 
+YoloDetector is an educational Android application that demonstrates how to deploy modern YOLO object detection models entirely on-device using TensorFlow Lite.
+
+The project is designed for:
+
+- Android developers learning AI
+- Students exploring Edge AI
+- Researchers deploying custom YOLO models
+- Developers building offline computer vision applications.
+  
+All inference runs locally without sending images to any server.
+---
 ## 🌟 Key Features
 
 *   **Real-Time Camera Detection**: Powered by **Android Jetpack CameraX**, capturing live frames and conducting inference with negligible latency.
