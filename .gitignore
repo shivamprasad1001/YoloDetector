@@ -1,0 +1,49 @@
+# Gradle / Android build output
+.gradle/
+.kotlin/
+build/
+**/build/
+
+# Local machine config
+local.properties
+*.iml
+
+# Android Studio / IntelliJ user state
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries/
+.idea/shelf/
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+# VS Code user state
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+
+# Generated Android / native intermediates
+captures/
+.externalNativeBuild/
+.cxx/
+
+# APKs and signing artifacts
+*.apk
+*.aab
+*.ap_
+*.keystore
+*.jks
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Codex / local agent metadata
+.agents/
+.codex/
