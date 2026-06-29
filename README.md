@@ -2,7 +2,12 @@
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-purple.svg?style=flat&logo=kotlin)](https://kotlinlang.org/)
 [![TensorFlow Lite](https://img.shields.io/badge/TensorFlow%20Lite-2.14.0-orange?style=flat&logo=tensorflow)](https://www.tensorflow.org/lite)
 [![CameraX](https://img.shields.io/badge/CameraX-Jetpack-green?style=flat&logo=android)](https://developer.android.com/jetpack/androidx/releases/camera)
+[![Platform](https://img.shields.io/badge/Platform-Android-3DDC84?style=flat&logo=android&logoColor=white)](https://developer.android.com/)
+[![Min SDK](https://img.shields.io/badge/Min%20SDK-24%20(Nougat)-blue?style=flat&logo=android)](https://developer.android.com/about/dashboards)
+[![Gradle](https://img.shields.io/badge/Gradle-8.2-02303A?style=flat&logo=gradle)](https://gradle.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/shivamprasad1001/YoloDetector)](https://github.com/shivamprasad1001/YoloDetector/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](https://makeapullrequest.com)
 
 An advanced, high-performance Android application featuring real-time object detection using a customized **YOLO26n** (float32) model powered by **TensorFlow Lite**. Implemented with a sleek **Sci-Fi HUD overlay** and a clean **Neumorphic design system**, YoloDetector delivers desktop-grade edge computing on mobile devices.
 
@@ -56,6 +61,26 @@ graph TD
 *   **Model Input**: Bounded RGB float32 normalized image of size $640 \times 640 \times 3$.
 *   **Non-Maximum Suppression (NMS)**: Handled directly within the TFLite graph (end-to-end export) yielding a `[1, 300, 6]` tensor output `[x1, y1, x2, y2, confidence, class_id]`.
 *   **Coordinate Scaling**: Dynamic viewport transformations scale normalized coordinates to fit screen boundaries regardless of device aspect ratio.
+
+---
+
+## ⚙️ Technical Deep Dive
+
+### 📷 CameraX Frame Pipeline & Analysis
+* **Non-Blocking Execution**: Configured using `ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST` to drop old frames if the inference engine is busy, guaranteeing zero lag in the live viewfinder.
+* **Format Conversion**: Custom conversion converts the native `RGBA_8888` `ImageProxy` plane into an Android `Bitmap` while accounting for row stride padding (`rowPadding = rowStride - pixelStride * width`).
+* **Rotation Correction**: Matches physical camera orientation to output canvas by querying sensor rotation (`imageProxy.imageInfo.rotationDegrees`) and applying a `Matrix` post-rotation translation.
+
+### 🧠 TFLite Preprocessing & Inference Engine
+* **Byte Normalization**: Preallocates a direct JVM `ByteBuffer` mapping 4 bytes per float:
+  $$\text{Buffer Size} = 1 \text{ (batch)} \times 640 \text{ (width)} \times 640 \text{ (height)} \times 3 \text{ (channels)} \times 4 \text{ (bytes/float)}$$
+* **Standardized Scaling**: Isolates RGB pixel channels using bit shifts and normalizes color values to $[0.0, 1.0]$:
+  $$R_{norm} = \frac{(px \text{ shr } 16) \text{ and } 0xFF}{255.0f}$$
+* **SoC Accelerators**: Dynamically interrogates the system CPU using `CompatibilityList.isDelegateSupportedOnThisDevice` to allocate `GpuDelegate` for high-performance hardware execution, defaulting to 4 background CPU execution threads if incompatible.
+
+### 🎨 Rendering & HUD Overlay
+* **Canvas Mapping**: Custom `OverlayView` translates relative coordinates (`[0.0, 1.0]`) into the actual rendering viewport, scaling and centering bounding boxes to avoid aspect-ratio distortion.
+* **HUD Reactive Animation**: Highlights successful object identification by firing alpha animation pulses (`edgeGlow.animate().alpha(0f).setDuration(300)`) onto the custom red/green neon dashboard edge layout.
 
 ---
 
