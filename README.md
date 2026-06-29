@@ -33,7 +33,7 @@ An advanced, high-performance Android application featuring real-time object det
 
 | Dashboard (Neumorphic) | Live Detection (Sci-Fi HUD) | Photo Analyzer |
 |:---:|:---:|:---:|
-| <img src="/main/app/src/main/assets/screenshot_dashboard.png" width="250" alt="Dashboard"/> | <img src="assets/screenshot_live.png" width="250" alt="Live HUD"/> | <img src="assets/screenshot_photo.png" width="250" alt="Photo Detect"/> |
+| <img src="/app/src/main/assets/screenshot_dashboard.png" width="250" alt="Dashboard"/> | <img src="assets/screenshot_live.png" width="250" alt="Live HUD"/> | <img src="assets/screenshot_photo.png" width="250" alt="Photo Detect"/> |
 
 *(Place screenshots in `assets/` to display them here)*
 
