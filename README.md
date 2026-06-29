@@ -13,7 +13,7 @@ An advanced, high-performance Android application featuring real-time object det
 
 ---
 
-![YoloDetector Banner](assets/banner.png)
+![YoloDetector Banner](app/src/main/assets/banner.png)
 
 ---
 
